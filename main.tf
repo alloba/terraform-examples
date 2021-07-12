@@ -1,18 +1,7 @@
 /**
- The terraform block contains core terraform settings.
- Specifically in this case, the provider definition.
+ Outputs that are useful going forward after creation. These can be seen in the console output for terraform operations
+ on this stack, and can be referenced by other modules directly if needed. (somehow).
 **/
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws" # this basically a shorthand way of defining the registry source. (registry.terraform.io/hashicorp/aws)
-      version = "~> 3.49"       # ~> means to allow only patch releases within a minor version (get most recent patch inside of 3.27)
-    }
-  }
-
-  required_version = ">= 1.0.0" # minimum terraform version required.
-}
-
 output "gateway_endpoint" {
   value = aws_api_gateway_stage.terraform_gateway_stage.invoke_url
 }
@@ -27,6 +16,21 @@ output "client_id" {
 }
 output "scope" {
   value = aws_cognito_user_pool_client.terraform_user_pool_client.allowed_oauth_scopes
+}
+
+/**
+ The terraform block contains core terraform settings.
+ Specifically in this case, the provider definition.
+**/
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws" # this basically a shorthand way of defining the registry source. (registry.terraform.io/hashicorp/aws)
+      version = "~> 3.49"       # ~> means to allow only patch releases within a minor version (get most recent patch inside of 3.27)
+    }
+  }
+
+  required_version = ">= 1.0.0" # minimum terraform version required.
 }
 
 /**
@@ -176,7 +180,7 @@ resource "aws_api_gateway_method" "terraform_gateway_method" {
   authorization        = "COGNITO_USER_POOLS"
   authorization_scopes = aws_cognito_user_pool_client.terraform_user_pool_client.allowed_oauth_scopes #this can be narrowed down, but just allow anything from the auth setup to work here as a simple answer.
   authorizer_id        = aws_api_gateway_authorizer.terraform_gateway_authorizer.id
-  http_method          = "ANY"
+  http_method          = "ANY" ##this can be changed to whatever. GET probably.
   resource_id          = aws_api_gateway_resource.terraform_gateway_resource.id
   rest_api_id          = aws_api_gateway_rest_api.terraform_gateway_test.id
 }
@@ -194,7 +198,7 @@ resource "aws_api_gateway_integration" "terraform_gateway_integration" {
   resource_id             = aws_api_gateway_resource.terraform_gateway_resource.id
   rest_api_id             = aws_api_gateway_rest_api.terraform_gateway_test.id
   type                    = "AWS_PROXY"
-  integration_http_method = "POST"
+  integration_http_method = "POST" ## this is not the method type, this is specifically referring to integration. meaning, don't change it to fit some http call.
   uri                     = aws_lambda_function.terraform_gateway_lambda_hello_world.invoke_arn
 }
 
@@ -216,15 +220,3 @@ resource "aws_api_gateway_stage" "terraform_gateway_stage" {
   rest_api_id   = aws_api_gateway_rest_api.terraform_gateway_test.id
   stage_name    = "test"
 }
-
-## TODO Getting unatuthorized when trying to hit endpoint. seems to not be a problem when i manually create an endpoint + lambda from the console.
-## Update - it seem like its due to postman trying to use the bearer token as the authorization header, instead of using what
-##          the gateway requires, which is the id_token. They are both provided in the token request, but you have to go
-##          digging for the latter.
-##          It's weird, because i swear i didnt have to do this earlier, with a different gateway.
-
-# OKAY NEW UPDATE. Something in the act of allowing extra auth flows in the user pool client configuration fucks this up.
-# ONLY enable 'ALLOW_USER_PASSWORD_AUTH' as an auth flow, and it will work just fine. I dont understand auth.
-
-## Even newer update, im not sure any of the above is actually true. There are a couple of floating confusion points.
-## possibly all of this was caused by not defining oath scopes on the api methods themselves.
