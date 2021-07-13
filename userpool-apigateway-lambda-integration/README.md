@@ -19,3 +19,5 @@ the proper AWS account settings are being used in the CLI.
 
 Additionally, obviously you need the CLI tools installed to get anything done 
 (AWS and Terraform).
+
+A default profile and region is hardcoded into the files. change as necessary (`maif.tf`)
