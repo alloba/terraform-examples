@@ -41,13 +41,9 @@ output "ecr_repo_worker_endpoint" {
   value = aws_ecr_repository.testing_ecr_repo.repository_url
 }
 
-data "aws_ecs_cluster" "imported_test_ecs_cluster" {
-  cluster_name = "terraform-testing-ecs-cluster" ## FIXME: DIRECT REFERENCE TO EXTERNAL RESOURCE. this is obviously pretty stinky.
-}
-
 resource "aws_ecs_service" "test_ecs_service" {
   name = "test-ecs-service"
-  cluster = data.aws_ecs_cluster.imported_test_ecs_cluster.id
+  cluster = data.aws_ssm_parameter.parent_ecs_cluster_name.value
   desired_count = 1
   launch_type = "EC2"
   task_definition = aws_ecs_task_definition.test_ecs_task_definition.arn
