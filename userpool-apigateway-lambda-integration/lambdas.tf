@@ -12,6 +12,7 @@ resource "aws_lambda_function" "terraform_gateway_lambda_hello_world" {
 }
 
 resource "aws_iam_role" "terraform_lambda_exec_role" {
+  # this style of declaration can be replaced/supplemented with a data block for an iam policy statement. it looks much cleaner and has syntax highlighting.
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
