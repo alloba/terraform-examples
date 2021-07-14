@@ -1,12 +1,13 @@
 resource "aws_internet_gateway" "testing_internet_gateway" {
+  # Internet gateway is required to allow traffic to the outside world from the vpc.
   vpc_id = aws_vpc.testing_vpc.id
-  tags   = { Name = "terraform-testing-internet-gateway" }
+  tags   = { Name = "${var.environment-name}-internet-gateway" }
 }
 
 resource "aws_subnet" "testing_public_subnet" {
   cidr_block = "10.0.1.0/25" # subset of the ip addresses defined in the vpc
   vpc_id     = aws_vpc.testing_vpc.id
-  tags       = { Name = "terraform-testing-subnet" }
+  tags       = { Name = "${var.environment-name}-subnet" }
 }
 
 resource "aws_route_table" "testing_route_table" {
@@ -17,7 +18,7 @@ resource "aws_route_table" "testing_route_table" {
     cidr_block = "0.0.0.0/0" # catch all traffic
     gateway_id = aws_internet_gateway.testing_internet_gateway.id
   }
-  tags = { Name = "terraform-testing-route-table" }
+  tags = { Name = "${var.environment-name}-route-table" }
 }
 
 resource "aws_route_table_association" "testing_route_table_association" {
@@ -58,5 +59,5 @@ resource "aws_security_group" "testing_security_group" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags = { Name = "terraform-testing-security-group" }
+  tags = { Name = "${var.environment-name}-security-group" }
 }

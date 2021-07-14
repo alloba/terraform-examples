@@ -42,7 +42,7 @@ output "ecr_repo_worker_endpoint" {
 }
 
 data "aws_ecs_cluster" "imported_test_ecs_cluster" {
-  cluster_name = "testing_ecs_cluster" ## FIXME: DIRECT REFERENCE TO EXTERNAL RESOURCE. this is obviously pretty stinky.
+  cluster_name = "terraform-testing-ecs-cluster" ## FIXME: DIRECT REFERENCE TO EXTERNAL RESOURCE. this is obviously pretty stinky.
 }
 
 resource "aws_ecs_service" "test_ecs_service" {

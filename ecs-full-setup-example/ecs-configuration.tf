@@ -12,17 +12,17 @@ data "aws_iam_policy_document" "testing_iam_policy_ecs" {
 
 resource "aws_iam_role" "testing_iam_role" {
   assume_role_policy = data.aws_iam_policy_document.testing_iam_policy_ecs.json
-  name               = "testing-ecs-agent"
+  name               = "${var.environment-name}-ecs-agent"
 }
 
 resource "aws_iam_policy_attachment" "testing_iam_policy_attachment" {
-  name       = "testing-ecs-agent-policy-attachment"
+  name       = "${var.environment-name}-ecs-agent-policy-attachment"
   roles      = [aws_iam_role.testing_iam_role.id]
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role" # this maps to a policy that would show up in the list that you can add to iam roles.
 }
 
 resource "aws_iam_instance_profile" "testing_iam_instance_profile" {
-  name = "testing-ecs-agent"
+  name = "${var.environment-name}-ecs-agent"
   role = aws_iam_role.testing_iam_role.name
 }
 
@@ -35,7 +35,7 @@ resource "tls_private_key" "testing_tls_key" {
 
 resource "aws_key_pair" "testing_ssh_key" {
   public_key = tls_private_key.testing_tls_key.public_key_openssh
-  key_name = "testing_ssh_key_name"
+  key_name = "${var.environment-name}-name"
   provisioner "local-exec" {
     command = "echo '${tls_private_key.testing_tls_key.private_key_pem}' > ./myKey.pem"
   }
@@ -61,7 +61,7 @@ resource "aws_launch_configuration" "testing_ecs_launch_config" {
 resource "aws_autoscaling_group" "testing_autoscaling_group" {
   max_size             = 2
   min_size             = 1
-  name                 = "testing-autoscaling-group"
+  name                 = "${var.environment-name}-autoscaling-group"
   vpc_zone_identifier  = [aws_subnet.testing_public_subnet.id]
   launch_configuration = aws_launch_configuration.testing_ecs_launch_config.name
 }
@@ -70,5 +70,5 @@ resource "aws_ecs_cluster" "testing_ecs_cluster" {
   # Note: It's nothing in the cluster definition that actually attached EC2 instances to the cluster.
   # That comes fully from the EC2 instance itself, via a docker agent that is running by default.
   # This is also one of the reasons why it is important to use ami's that are configured for ecs (so the registration service will be running on startup)
-  name = "testing_ecs_cluster"
+  name = "${var.environment-name}-ecs-cluster"
 }
