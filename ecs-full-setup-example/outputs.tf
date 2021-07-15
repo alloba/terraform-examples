@@ -9,3 +9,7 @@ resource "aws_ssm_parameter" "lb_target_group" {
   type = "String"
   value = aws_alb_target_group.lb_target_group.arn
 }
+
+output "elb_endpoint" {
+  value = aws_alb.load_balancer.dns_name
+}

@@ -6,6 +6,12 @@ terraform {
     }
   }
 
+  backend "s3" {
+    bucket = "alloba-terraform-state-files"
+    key = "dummy-docker-project-ecs"
+    region = "us-east-1"
+  }
+
   required_version = ">= 1.0.0"
 }
 provider "aws" {
