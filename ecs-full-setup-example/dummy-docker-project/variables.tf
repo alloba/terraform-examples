@@ -9,6 +9,7 @@ variable "parent_lb_target_group" {
 }
 
 variable "image_full" {
+  description = "This is the fully resolved name of the docker image to use for deployment. By default a simple hello world is used."
   type = string
   default = "tutum/hello-world"
 }
