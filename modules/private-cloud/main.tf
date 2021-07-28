@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     aws = {
-      source= "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "~> 3.49"
     }
   }
@@ -14,7 +14,3 @@ resource "aws_vpc" "vpc" {
 
   tags = merge(var.additional-tags, {})
 }
-
-
-
-

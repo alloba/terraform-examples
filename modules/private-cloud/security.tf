@@ -10,7 +10,7 @@ resource "aws_security_group" "http" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(var.additional-tags, { "Name": "${lookup(var.additional-tags, "Name", "untagged")}-http" })
+  tags = merge(var.additional-tags, { "Name" : "${lookup(var.additional-tags, "Name", "untagged")}-http" })
 }
 
 resource "aws_security_group" "https" {
@@ -24,7 +24,7 @@ resource "aws_security_group" "https" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(var.additional-tags, { "Name": "${lookup(var.additional-tags, "Name", "untagged")}-https" })
+  tags = merge(var.additional-tags, { "Name" : "${lookup(var.additional-tags, "Name", "untagged")}-https" })
 }
 
 resource "aws_security_group" "egress-all" {
@@ -38,7 +38,7 @@ resource "aws_security_group" "egress-all" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = merge(var.additional-tags, { "Name": "${lookup(var.additional-tags, "Name", "untagged")}-egress-all" })
+  tags = merge(var.additional-tags, { "Name" : "${lookup(var.additional-tags, "Name", "untagged")}-egress-all" })
 }
 
 //resource "aws_security_group" "api-ingress" {
