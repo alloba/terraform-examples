@@ -21,7 +21,7 @@ provider "aws" {
 }
 
 module "vpc-infra" {
-  source = "../modules/private-cloud"
+  source = "../modules/vpc-privatesubnets-nats"
 
   vpc-cidr-range           = "10.0.0.0/16"
   availability-zones       = ["us-east-1a"]
