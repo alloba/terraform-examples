@@ -10,7 +10,7 @@ terraform {
 
   backend "s3" {
     bucket = "alloba-terraform-state-files"
-    key    = "fargate-example"
+    key    = "fargate-private-subnet-example"
     region = "us-east-1"
   }
 }
@@ -21,7 +21,7 @@ provider "aws" {
 }
 
 module "vpc-infra" {
-  source = "../modules/vpc-privatesubnets-nats"
+  source = "../../modules/vpc-privatesubnets-nats"
 
   vpc-cidr-range           = "10.0.0.0/16"
   availability-zones       = ["us-east-1a"]
