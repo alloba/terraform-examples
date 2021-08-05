@@ -1,5 +1,5 @@
 /.idea/
-/userpool-apigateway-lambda-integration/.terraform/
+/apigateway-authorized/.terraform/
 **/*.zip
 
 # Local .terraform directories
