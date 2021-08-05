@@ -73,7 +73,6 @@ resource "aws_cognito_resource_server" "cognito-module-resource-server" {
   }
 }
 
-# Placeholder. TODO: maybe inject the group into the lambda via environment params.
 resource "aws_cognito_user_group" "cognito-module-usergroup-users" {
   name = var.default-usergroup
   user_pool_id = aws_cognito_user_pool.cognito-module-user-pool.id
