@@ -19,6 +19,12 @@ resource "aws_lambda_function" "assign-group-lambda" {
   filename         = "${path.module}/lambda-triggers/post-confirm-lambda.zip"
   source_code_hash = data.archive_file.lambda-post-confirm-archive.output_base64sha256
 
+  environment {
+    variables = {
+      default_group = var.default-usergroup
+    }
+  }
+
   tags = {
     category = "terraform"
   }

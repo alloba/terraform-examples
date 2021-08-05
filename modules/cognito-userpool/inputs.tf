@@ -7,3 +7,8 @@ variable "user-pool-domain" {
   type = string
   default = "guffy-cognito-module"
 }
+
+variable "default-usergroup" {
+  type = string
+  default = "users"
+}

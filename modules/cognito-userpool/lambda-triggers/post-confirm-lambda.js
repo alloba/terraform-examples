@@ -3,8 +3,9 @@ const AWS = require('aws-sdk');
 module.exports.addUserToGroup = (event, context, callback) => {
 
     const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+    let groupName = process.env.default_group;
     const params = {
-        GroupName: 'users', //The name of the group in you cognito user pool that you want to add the user to
+        GroupName: groupName, //The name of the group in you cognito user pool that you want to add the user to
         UserPoolId: event.userPoolId,
         Username: event.userName
     };
