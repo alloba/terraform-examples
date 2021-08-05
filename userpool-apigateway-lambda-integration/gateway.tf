@@ -10,7 +10,7 @@ resource "aws_api_gateway_resource" "terraform_gateway_resource" {
 
 resource "aws_api_gateway_method" "terraform_gateway_method" {
   authorization        = "COGNITO_USER_POOLS"
-  authorization_scopes = aws_cognito_user_pool_client.terraform_user_pool_client.allowed_oauth_scopes #this can be narrowed down, but just allow anything from the auth setup to work here as a simple answer.
+  authorization_scopes = module.cognito-pool-module.pool-client-allowed-oauth-scopes #this can be narrowed down, but just allow anything from the auth setup to work here as a simple answer.
   authorizer_id        = aws_api_gateway_authorizer.terraform_gateway_authorizer.id
   http_method          = "ANY" ##this can be changed to whatever. GET probably.
   resource_id          = aws_api_gateway_resource.terraform_gateway_resource.id
@@ -21,7 +21,7 @@ resource "aws_api_gateway_authorizer" "terraform_gateway_authorizer" {
   name          = "terraform-gateway-authorizer"
   rest_api_id   = aws_api_gateway_rest_api.terraform_gateway_test.id
   type          = "COGNITO_USER_POOLS"
-  provider_arns = [aws_cognito_user_pool.cognito_user_pool.arn]
+  provider_arns = [module.cognito-pool-module.pool-arn]
 
 }
 

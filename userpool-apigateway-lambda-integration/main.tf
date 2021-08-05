@@ -1,24 +1,4 @@
 /**
- Outputs that are useful going forward after creation. These can be seen in the console output for terraform operations
- on this stack, and can be referenced by other modules directly if needed. (somehow).
-**/
-output "gateway_endpoint" {
-  value = aws_api_gateway_stage.terraform_gateway_stage.invoke_url
-}
-output "auth_url" {
-  value = join("", ["https://", aws_cognito_user_pool_domain.terraform_user_pool_domain.domain, ".auth.us-east-1.amazoncognito.com/login"])
-}
-output "callback_url" {
-  value = aws_cognito_user_pool_client.terraform_user_pool_client.callback_urls
-}
-output "client_id" {
-  value = aws_cognito_user_pool_client.terraform_user_pool_client.id
-}
-output "scope" {
-  value = aws_cognito_user_pool_client.terraform_user_pool_client.allowed_oauth_scopes
-}
-
-/**
  The terraform block contains core terraform settings.
  Specifically in this case, the provider definition.
 **/

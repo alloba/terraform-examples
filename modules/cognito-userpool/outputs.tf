@@ -24,3 +24,12 @@ output "scope" {
 output "pool_id" {
   value = aws_cognito_user_pool.cognito-module-user-pool.id
 }
+
+
+output "pool-client-allowed-oauth-scopes" {
+  value = aws_cognito_user_pool_client.cognito-module-pool-client.allowed_oauth_scopes
+}
+
+output "pool-arn" {
+  value = aws_cognito_user_pool.cognito-module-user-pool.arn
+}
