@@ -2,11 +2,10 @@
 /apigateway-authorized/.terraform/
 **/*.zip
 
-# Local .terraform directories
+# Local .terraform directories/files (I'm choosing to not care about lock files)
 **/.terraform/*
+**/.terraform.lock.hcl
 
 # .tfstate files
 **/.tfstate
 **/.tfstate.*
-
-# Crash log files
